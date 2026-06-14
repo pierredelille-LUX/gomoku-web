@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>五子棋双人对战</title>
-    <link rel="stylesheet" href="styles.css?v=43327e8" />
+    <link rel="stylesheet" href="styles.css?v=cloud-sync-3" />
   </head>
   <body>
     <div class="app">
@@ -91,6 +91,35 @@
 
           <section class="panel-section">
             <div class="section-title">
+              <h2>账号与云存档</h2>
+              <span id="cloudState">未登录</span>
+            </div>
+            <div class="account-row">
+              <img id="cloudAvatar" alt="" hidden />
+              <div>
+                <strong id="cloudName">游客</strong>
+                <span id="cloudEmail">本机对局</span>
+              </div>
+            </div>
+            <div class="button-row">
+              <button class="primary" id="googleSignInBtn" type="button">Google 登录</button>
+              <button id="googleSignOutBtn" type="button" disabled>退出登录</button>
+            </div>
+            <div class="button-row">
+              <button id="cloudSaveBtn" type="button" disabled>保存到云端</button>
+              <button id="cloudLoadBtn" type="button" disabled>继续上次棋局</button>
+            </div>
+            <label>
+              云端棋局
+              <select id="cloudSaveList" disabled>
+                <option value="">暂无云存档</option>
+              </select>
+            </label>
+            <p class="cloud-note" id="cloudNote">配置 Firebase 后可使用 Google 账号保存棋局。</p>
+          </section>
+
+          <section class="panel-section">
+            <div class="section-title">
               <h2>远程联机</h2>
               <span id="connectionState">未连接</span>
             </div>
@@ -115,6 +144,8 @@
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script src="app.js?v=43327e8"></script>
+    <script src="firebase-config.js?v=cloud-sync-3"></script>
+    <script src="app.js?v=cloud-sync-3"></script>
+    <script type="module" src="cloud-sync.js?v=cloud-sync-3"></script>
   </body>
 </html>

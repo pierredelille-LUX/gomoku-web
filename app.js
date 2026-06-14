@@ -264,6 +264,15 @@ function render() {
 
   renderMoveList();
   renderTimers();
+  notifyStateChanged();
+}
+
+function notifyStateChanged() {
+  window.dispatchEvent(
+    new CustomEvent("gomoku:statechange", {
+      detail: { snapshot: exportCloudSnapshot() },
+    }),
+  );
 }
 
 function renderMoveList() {
@@ -744,6 +753,9 @@ function handlePeerMessage(message) {
 
 function exportState() {
   return {
+    app: "gomoku-web",
+    version: 3,
+    size: BOARD_SIZE,
     current: state.current,
     moves: state.moves.map(({ row, col, color, at }) => ({ row, col, color, at })),
     names: state.names,
@@ -753,7 +765,24 @@ function exportState() {
     timeUsed: state.timeUsed,
     winner: state.winner,
     winningLine: state.winningLine,
+    finishedAt: state.finishedAt,
   };
+}
+
+function exportCloudSnapshot() {
+  return {
+    ...exportState(),
+    exportedAt: new Date().toISOString(),
+  };
+}
+
+function importCloudSnapshot(snapshot) {
+  if (!snapshot || snapshot.size !== BOARD_SIZE || !Array.isArray(snapshot.moves)) {
+    throw new Error("云端棋局格式不正确");
+  }
+  clearAIThinking();
+  importState(snapshot);
+  scheduleAIMoveIfNeeded();
 }
 
 function importState(snapshot) {
@@ -775,6 +804,7 @@ function importState(snapshot) {
   state.current = snapshot.current || (state.moves.length % 2 === 0 ? "black" : "white");
   state.winner = snapshot.winner || null;
   state.winningLine = snapshot.winningLine || [];
+  state.finishedAt = snapshot.finishedAt || null;
   state.turnStartedAt = Date.now();
   render();
 }
@@ -833,6 +863,12 @@ function loadHashRecord() {
 createBoard();
 setupEvents();
 applyModeControls({ resetNames: false });
+window.GomokuApp = {
+  exportCloudSnapshot,
+  importCloudSnapshot,
+  makeRecord,
+};
+document.documentElement.dataset.gomokuApi = "ready";
 render();
 loadHashRecord();
 scheduleAIMoveIfNeeded();
