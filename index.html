@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>五子棋双人对战</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Gomoku Match</p>
+          <h1>五子棋双人对战</h1>
+        </div>
+        <div class="status-pill" id="gameStatus">黑方先手</div>
+      </header>
+
+      <main class="layout">
+        <section class="play-area" aria-label="棋盘">
+          <div class="scorebar" aria-label="当前对局状态">
+            <div class="player-card active" id="blackCard">
+              <span class="stone-dot black"></span>
+              <div>
+                <strong id="blackLabel">黑方</strong>
+                <span id="blackTimer">00:00</span>
+              </div>
+            </div>
+            <div class="turn-chip" id="turnChip">第 1 手</div>
+            <div class="player-card" id="whiteCard">
+              <span class="stone-dot white"></span>
+              <div>
+                <strong id="whiteLabel">白方</strong>
+                <span id="whiteTimer">00:00</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="board-wrap">
+            <div class="board" id="board" role="grid" aria-label="15 路五子棋棋盘"></div>
+          </div>
+        </section>
+
+        <aside class="side-panel" aria-label="对局控制">
+          <section class="panel-section">
+            <div class="section-title">
+              <h2>开始对战</h2>
+              <span id="networkBadge">同屏</span>
+            </div>
+            <label>
+              黑方昵称
+              <input id="blackName" type="text" value="黑方" maxlength="16" autocomplete="off" />
+            </label>
+            <label>
+              白方昵称
+              <input id="whiteName" type="text" value="白方" maxlength="16" autocomplete="off" />
+            </label>
+            <div class="button-row">
+              <button class="primary" id="newGameBtn" type="button">新开一局</button>
+              <button id="undoBtn" type="button">悔棋</button>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="section-title">
+              <h2>棋谱</h2>
+              <span id="moveCount">0 手</span>
+            </div>
+            <ol class="move-list" id="moveList" aria-label="落子记录"></ol>
+            <div class="button-row">
+              <button id="copyRecordBtn" type="button">复制棋谱</button>
+              <button id="shareRecordBtn" type="button">分享链接</button>
+            </div>
+            <textarea id="recordInput" rows="4" placeholder="粘贴棋谱 JSON 后可导入"></textarea>
+            <button id="importRecordBtn" type="button">导入棋谱</button>
+          </section>
+
+          <section class="panel-section">
+            <div class="section-title">
+              <h2>远程联机</h2>
+              <span id="connectionState">未连接</span>
+            </div>
+            <div class="signal-grid">
+              <button id="createOfferBtn" type="button">生成创建码</button>
+              <button id="acceptOfferBtn" type="button">生成加入码</button>
+              <button id="acceptAnswerBtn" type="button">完成连接</button>
+              <button id="disconnectBtn" type="button">断开</button>
+            </div>
+            <label>
+              对方连接码
+              <textarea id="signalInput" rows="4" placeholder="粘贴对方发来的创建码或加入码"></textarea>
+            </label>
+            <label>
+              发给对方
+              <textarea id="signalOutput" rows="4" readonly placeholder="连接码会显示在这里"></textarea>
+            </label>
+            <button id="copySignalBtn" type="button">复制连接码</button>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
