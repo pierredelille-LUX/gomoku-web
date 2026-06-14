@@ -132,6 +132,7 @@ function createBoard() {
       if (col === 0) cell.classList.add("edge-left");
       if (col === BOARD_SIZE - 1) cell.classList.add("edge-right");
       if (STAR_POINTS.has(`${row},${col}`)) {
+        cell.classList.add("star");
         const star = document.createElement("span");
         star.className = "star-point";
         cell.append(star);
