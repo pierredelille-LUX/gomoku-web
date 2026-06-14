@@ -48,6 +48,20 @@
               <span id="networkBadge">同屏</span>
             </div>
             <label>
+              对战模式
+              <select id="gameMode">
+                <option value="human">双人对弈</option>
+                <option value="ai">人机对战（中等 AI）</option>
+              </select>
+            </label>
+            <label id="humanColorLabel">
+              玩家执子
+              <select id="humanColor">
+                <option value="black">黑方先手</option>
+                <option value="white">白方后手</option>
+              </select>
+            </label>
+            <label>
               黑方昵称
               <input id="blackName" type="text" value="黑方" maxlength="16" autocomplete="off" />
             </label>
